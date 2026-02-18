@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MacGen Trade International — Leading Biomedical Equipment Distributor in Bangladesh</title>
+    <meta name="description" content="MacGen Trade International — 15+ years of excellence in biomedical equipment distribution across Bangladesh. Exclusive distributors of URIT, Cornley, LabSim & NineKingMed. 9 branch offices, 50+ engineers.">
+    <meta name="keywords" content="biomedical equipment Bangladesh, URIT distributor, hematology analyzer, clinical chemistry, blood gas analyzer, electrolyte analyzer, diagnostic equipment Dhaka">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- ====== WebGL Wave Gradient Background (Argus-style) ====== -->
+    <canvas id="gradient-canvas" data-js-darken-top></canvas>
+
+    <!-- ====== Navigation ====== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-logo" id="nav-logo-link">
+                <div class="logo-svg-wrap" id="logo-animated">
+                    <object data="assets/macgen-logo.svg" type="image/svg+xml" class="nav-logo-svg" id="nav-logo-svg"></object>
+                </div>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="#hero" class="nav-link active">Home</a>
+                <div class="nav-dropdown" id="products-dropdown">
+                    <a href="#products" class="nav-link dropdown-trigger">
+                        Products <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="mega-dropdown" id="mega-dropdown">
+                        <div class="mega-dropdown-inner">
+                            <div class="mega-categories">
+                                <div class="mega-cat active" data-category="chemistry">
+                                    <div class="mega-cat-icon"><i class="fas fa-flask"></i></div>
+                                    <div class="mega-cat-info">
+                                        <h4>Clinical Chemistry</h4>
+                                        <p>Biochemistry analyzers</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                                <div class="mega-cat" data-category="hematology">
+                                    <div class="mega-cat-icon"><i class="fas fa-tint"></i></div>
+                                    <div class="mega-cat-info">
+                                        <h4>Hematology</h4>
+                                        <p>CBC & differential analysis</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                                <div class="mega-cat" data-category="bloodgas">
+                                    <div class="mega-cat-icon"><i class="fas fa-lungs"></i></div>
+                                    <div class="mega-cat-info">
+                                        <h4>Blood Gas & Electrolyte</h4>
+                                        <p>Critical care analyzers</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                                <div class="mega-cat" data-category="immunoassay">
+                                    <div class="mega-cat-icon"><i class="fas fa-vial"></i></div>
+                                    <div class="mega-cat-info">
+                                        <h4>Immunoassay & POCT</h4>
+                                        <p>Fluorescence immunoassay</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                                <div class="mega-cat" data-category="reagents">
+                                    <div class="mega-cat-icon"><i class="fas fa-prescription-bottle"></i></div>
+                                    <div class="mega-cat-info">
+                                        <h4>Reagents & Consumables</h4>
+                                        <p>Full range of lab reagents</p>
+                                    </div>
+                                    <i class="fas fa-chevron-right"></i>
+                                </div>
+                            </div>
+                            <div class="mega-products" id="mega-products">
+                                <!-- Chemistry products shown in dropdown -->
+                                <div class="mega-products-grid active" data-for="chemistry">
+                                    <div class="mega-product-card" data-product-id="ca431a"><img src="assets/images/CA-431A_202403/CA-431A_202403_001.png" alt="CA-431A"><div class="mega-product-info"><h5>CA-431A</h5><p>Auto Chemistry · 430 T/H</p></div></div>
+                                    <div class="mega-product-card" data-product-id="ca200"><img src="assets/images/CA-200/CA-200_001.png" alt="CA-200"><div class="mega-product-info"><h5>CA-200</h5><p>Semi-auto Chemistry</p></div></div>
+                                    <div class="mega-product-card" data-product-id="urit880"><img src="assets/images/URIT-880/URIT-880_001.png" alt="URIT-880"><div class="mega-product-info"><h5>URIT-880</h5><p>Semi-auto Chemistry</p></div></div>
+                                </div>
+                                <div class="mega-products-grid" data-for="hematology">
+                                    <div class="mega-product-card" data-product-id="urit5380"><img src="assets/images/URIT-5380/URIT-5380_001.png" alt="URIT-5380"><div class="mega-product-info"><h5>URIT-5380</h5><p>5-Part · 34 Parameters</p></div></div>
+                                    <div class="mega-product-card" data-product-id="bh40p"><img src="assets/images/BH-40P/BH-40P_001.png" alt="BH-40P"><div class="mega-product-info"><h5>BH-40P</h5><p>Hematology Analyzer</p></div></div>
+                                    <div class="mega-product-card" data-product-id="bh6180"><img src="assets/images/BH-6180_Brochure_HD-20231201_1/BH-6180_Brochure_HD-20231201_1_001.png" alt="BH-6180"><div class="mega-product-info"><h5>BH-6180</h5><p>Advanced CBC</p></div></div>
+                                </div>
+                                <div class="mega-products-grid" data-for="bloodgas">
+                                    <div class="mega-product-card" data-product-id="bg800"><img src="assets/images/2Blood_gas_analyzer_-BG-800_Catalog-2023/2Blood_gas_analyzer_-BG-800_Catalog-2023_007.png" alt="BG-800"><div class="mega-product-info"><h5>BG-800</h5><p>Blood Gas · 8 Params</p></div></div>
+                                    <div class="mega-product-card" data-product-id="vitagas5"><img src="assets/images/Blood_gas_analyzer_Vitagas_5_catalog-2024_2/Blood_gas_analyzer_Vitagas_5_catalog-2024_2_004.png" alt="Vitagas 5"><div class="mega-product-info"><h5>Vitagas 5</h5><p>Blood Gas 2024</p></div></div>
+                                    <div class="mega-product-card" data-product-id="aft800"><img src="assets/images/Electrolyte_analyzer_AFT-800_catalog-2022/Electrolyte_analyzer_AFT-800_catalog-2022_006.png" alt="AFT-800"><div class="mega-product-info"><h5>AFT-800</h5><p>Electrolyte Analyzer</p></div></div>
+                                    <div class="mega-product-card" data-product-id="klitec"><img src="assets/images/Electrolyte_analyzer_KLite-C_Catalog/Electrolyte_analyzer_KLite-C_Catalog_001.png" alt="KLite-C"><div class="mega-product-info"><h5>KLite-C</h5><p>Electrolyte (Cornley)</p></div></div>
+                                </div>
+                                <div class="mega-products-grid" data-for="immunoassay">
+                                    <div class="mega-product-card" data-product-id="l300"><img src="assets/images/L300_reagent/L300_reagent_006.png" alt="L300"><div class="mega-product-info"><h5>L300</h5><p>Immunofluorescence · 255 Tests</p></div></div>
+                                    <div class="mega-product-card" data-product-id="afs1000"><img src="assets/images/AFS-1000/AFS-1000_003.png" alt="AFS-1000"><div class="mega-product-info"><h5>AFS-1000</h5><p>POCT Fluorescent</p></div></div>
+                                    <div class="mega-product-card" data-product-id="n9fia2002"><img src="assets/images/catalogue_Nineking_med_2026_POCT/catalogue_Nineking_med_2026_POCT_006.png" alt="NineKingMed POCT"><div class="mega-product-info"><h5>N9-FIA2002</h5><p>NineKingMed POCT</p></div></div>
+                                </div>
+                                <div class="mega-products-grid" data-for="reagents">
+                                    <div class="mega-reagent-info">
+                                        <div class="reagent-item"><i class="fas fa-flask"></i> Clinical Chemistry Reagents</div>
+                                        <div class="reagent-item"><i class="fas fa-vials"></i> Diagnostic Consumables</div>
+                                        <div class="reagent-item"><i class="fas fa-dna"></i> ELISA & Immunoassay Kits</div>
+                                        <div class="reagent-item"><i class="fas fa-microscope"></i> Molecular Biology Reagents</div>
+                                        <div class="reagent-item"><i class="fas fa-check-circle"></i> QC & Calibrators</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="#about" class="nav-link">About Us</a>
+                <a href="#partners" class="nav-link">Partners</a>
+                <a href="#contact" class="nav-link">Contact</a>
+                <a href="#contact" class="nav-cta"><span>Get a Quote</span><i class="fas fa-arrow-right"></i></a>
+            </div>
+            <button class="mobile-toggle" id="mobile-toggle"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <!-- ====== Hero Section ====== -->
+    <section class="hero" id="hero">
+        <div class="hero-content">
+            <div class="hero-logo-container" id="hero-logo-container">
+                <object data="assets/macgen-logo.svg" type="image/svg+xml" id="hero-logo-svg" class="hero-logo-svg"></object>
+            </div>
+            <div class="hero-badge animate-in">
+                <span class="pulse-dot"></span>
+                Bangladesh's Leading Biomedical Equipment Distributor
+            </div>
+            <h1 class="hero-title animate-in">
+                <span class="title-line">Advancing</span>
+                <span class="title-line title-highlight">Healthcare</span>
+                <span class="title-line">Across Bangladesh</span>
+            </h1>
+            <p class="hero-desc animate-in">
+                With <strong>15+ years</strong> of excellence, <strong>9 branch offices</strong>, and a <strong>50+ strong</strong> engineering &amp; sales team — MacGen Trade International delivers world-class diagnostic solutions nationwide.
+            </p>
+            <div class="hero-actions animate-in">
+                <a href="#products" class="btn btn-primary"><span>Explore Products</span><i class="fas fa-arrow-down"></i></a>
+                <a href="#contact" class="btn btn-outline"><span>Contact Us</span><i class="fas fa-phone"></i></a>
+            </div>
+            <div class="hero-stats animate-in">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="15">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="9">0</span>
+                    <span class="stat-label">Branch Offices</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Engineers &amp; Team</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="500">0</span><span class="stat-plus">+</span>
+                    <span class="stat-label">Products</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== Products Section ====== -->
+    <section class="section products-section" id="products">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag animate-in">Our Products</span>
+                <h2 class="section-title animate-in">World-Class Diagnostic <span class="text-red">Instruments</span></h2>
+                <p class="section-desc animate-in">Exclusive distributor of URIT, Cornley, LabSim, and NineKingMed — cutting-edge diagnostic technology for laboratories across Bangladesh.</p>
+            </div>
+
+            <div class="product-tabs animate-in">
+                <button class="tab-btn active" data-tab="chemistry"><i class="fas fa-flask"></i><span>Clinical Chemistry</span></button>
+                <button class="tab-btn" data-tab="hematology"><i class="fas fa-tint"></i><span>Hematology</span></button>
+                <button class="tab-btn" data-tab="bloodgas"><i class="fas fa-lungs"></i><span>Blood Gas &amp; Electrolyte</span></button>
+                <button class="tab-btn" data-tab="immunoassay"><i class="fas fa-vial"></i><span>Immunoassay &amp; POCT</span></button>
+                <button class="tab-btn" data-tab="reagents"><i class="fas fa-prescription-bottle"></i><span>Reagents</span></button>
+            </div>
+
+            <!-- ============ CHEMISTRY ============ -->
+            <div class="product-panels">
+                <div class="product-panel active" data-panel="chemistry">
+                    <div class="products-grid">
+
+                        <div class="product-card" data-product-id="ca431a">
+                            <div class="product-card-image">
+                                <img src="assets/images/CA-431A_202403/CA-431A_202403_001.png" alt="CA-431A" loading="lazy">
+                                <div class="product-card-badge">Flagship</div>
+                                <button class="quick-view-btn" data-product-id="ca431a"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">URIT Medical</div>
+                                <h3>CA-431A</h3>
+                                <p class="product-card-type">Automatic Chemistry Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-tachometer-alt"></i> 430 T/H (620 with ISE)</li>
+                                    <li><i class="fas fa-vials"></i> 80 sample + 80 reagent positions</li>
+                                    <li><i class="fas fa-barcode"></i> Integrated barcode reader</li>
+                                    <li><i class="fas fa-snowflake"></i> 24h ice-free cooling</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="CA-431A Automatic Chemistry Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/CA-431A_202403.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="ca200">
+                            <div class="product-card-image">
+                                <img src="assets/images/CA-200/CA-200_001.png" alt="CA-200" loading="lazy">
+                                <button class="quick-view-btn" data-product-id="ca200"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">URIT Medical</div>
+                                <h3>CA-200</h3>
+                                <p class="product-card-type">Semi-auto Chemistry Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-compress-alt"></i> Compact bench-top design</li>
+                                    <li><i class="fas fa-check"></i> URIT reagent compatible</li>
+                                    <li><i class="fas fa-hospital"></i> Small labs &amp; clinics</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="CA-200 Semi-auto Chemistry Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/CA-200.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="urit880">
+                            <div class="product-card-image">
+                                <img src="assets/images/URIT-880/URIT-880_001.png" alt="URIT-880" loading="lazy">
+                                <button class="quick-view-btn" data-product-id="urit880"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">URIT Medical</div>
+                                <h3>URIT-880</h3>
+                                <p class="product-card-type">Semi-auto Chemistry Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-compress-alt"></i> Compact footprint</li>
+                                    <li><i class="fas fa-flask"></i> Routine clinical chemistry</li>
+                                    <li><i class="fas fa-check"></i> URIT reagent compatible</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="URIT-880 Semi-auto Chemistry Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/URIT-880.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ============ HEMATOLOGY ============ -->
+                <div class="product-panel" data-panel="hematology">
+                    <div class="products-grid">
+
+                        <div class="product-card" data-product-id="urit5380">
+                            <div class="product-card-image">
+                                <img src="assets/images/URIT-5380/URIT-5380_001.png" alt="URIT-5380" loading="lazy">
+                                <div class="product-card-badge">Advanced</div>
+                                <button class="quick-view-btn" data-product-id="urit5380"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">URIT Medical</div>
+                                <h3>URIT-5380</h3>
+                                <p class="product-card-type">5-Part Differential Hematology Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-chart-bar"></i> 34 parameters + 6 research</li>
+                                    <li><i class="fas fa-atom"></i> Flow Cytometry + 4-angle laser</li>
+                                    <li><i class="fas fa-chart-area"></i> 2D Scattergrams &amp; 3D Stereograms</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="URIT-5380 5-Part Hematology Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/URIT-5380.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="bh40p">
+                            <div class="product-card-image">
+                                <img src="assets/images/BH-40P/BH-40P_001.png" alt="BH-40P" loading="lazy">
+                                <button class="quick-view-btn" data-product-id="bh40p"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">URIT Medical</div>
+                                <h3>BH-40P</h3>
+                                <p class="product-card-type">Hematology Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-compress-alt"></i> Compact design</li>
+                                    <li><i class="fas fa-chart-bar"></i> Multi-parameter CBC</li>
+                                    <li><i class="fas fa-hospital"></i> Clinical &amp; fieldwork</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="BH-40P Hematology Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/BH-40P.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="bh6180">
+                            <div class="product-card-image">
+                                <img src="assets/images/BH-6180_Brochure_HD-20231201_1/BH-6180_Brochure_HD-20231201_1_001.png" alt="BH-6180" loading="lazy">
+                                <button class="quick-view-btn" data-product-id="bh6180"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">URIT Medical</div>
+                                <h3>BH-6180</h3>
+                                <p class="product-card-type">Advanced Hematology Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-chart-bar"></i> Advanced CBC with differential</li>
+                                    <li><i class="fas fa-globe"></i> URIT Global Diagnostics</li>
+                                    <li><i class="fas fa-hd"></i> High-definition system</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="BH-6180 Advanced Hematology Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/BH-6180_Brochure_HD-20231201__1_.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ============ BLOOD GAS & ELECTROLYTE ============ -->
+                <div class="product-panel" data-panel="bloodgas">
+                    <div class="products-grid">
+
+                        <div class="product-card" data-product-id="bg800">
+                            <div class="product-card-image">
+                                <img src="assets/images/2Blood_gas_analyzer_-BG-800_Catalog-2023/2Blood_gas_analyzer_-BG-800_Catalog-2023_007.png" alt="BG-800" loading="lazy">
+                                <div class="product-card-badge">Critical Care</div>
+                                <button class="quick-view-btn" data-product-id="bg800"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">Blood Gas</div>
+                                <h3>BG-800</h3>
+                                <p class="product-card-type">Blood Gas Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-vials"></i> pH, pCO₂, pO₂, K⁺, Na⁺, Cl⁻, Ca²⁺, Hct</li>
+                                    <li><i class="fas fa-syringe"></i> Whole blood, Serum, Plasma, CSF</li>
+                                    <li><i class="fas fa-hospital-alt"></i> ICU &amp; Emergency</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="BG-800 Blood Gas Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/2.Blood_gas_analyzer_-BG-800_Catalog-2023.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="vitagas5">
+                            <div class="product-card-image">
+                                <img src="assets/images/Blood_gas_analyzer_Vitagas_5_catalog-2024_2/Blood_gas_analyzer_Vitagas_5_catalog-2024_2_004.png" alt="Vitagas 5" loading="lazy">
+                                <div class="product-card-badge">2024</div>
+                                <button class="quick-view-btn" data-product-id="vitagas5"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">Vitagas</div>
+                                <h3>Vitagas 5</h3>
+                                <p class="product-card-type">Blood Gas Analyzer (2024)</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-hospital"></i> 16+ department compatibility</li>
+                                    <li><i class="fas fa-heartbeat"></i> Oxygenation assessment</li>
+                                    <li><i class="fas fa-baby"></i> Neonatal diagnostics</li>
+                                    <li><i class="fas fa-ambulance"></i> Critical care &amp; APS scoring</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="Vitagas 5 Blood Gas Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/Blood_gas_analyzer_Vitagas_5_catalog-2024_2.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="aft800">
+                            <div class="product-card-image">
+                                <img src="assets/images/Electrolyte_analyzer_AFT-800_catalog-2022/Electrolyte_analyzer_AFT-800_catalog-2022_006.png" alt="AFT-800" loading="lazy">
+                                <button class="quick-view-btn" data-product-id="aft800"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">Electrolyte</div>
+                                <h3>AFT-800</h3>
+                                <p class="product-card-type">Electrolyte Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-vials"></i> K⁺, Na⁺, Cl⁻, Ca²⁺, pH, Li⁺, TCO₂</li>
+                                    <li><i class="fas fa-check-double"></i> SD ≤1.0% accuracy</li>
+                                    <li><i class="fas fa-weight-hanging"></i> Compact: 12 kg</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="AFT-800 Electrolyte Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/Electrolyte_analyzer_AFT-800_catalog-2022.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="klitec">
+                            <div class="product-card-image">
+                                <img src="assets/images/Electrolyte_analyzer_KLite-C_Catalog/Electrolyte_analyzer_KLite-C_Catalog_001.png" alt="KLite-C" loading="lazy">
+                                <div class="product-card-badge">Cornley</div>
+                                <button class="quick-view-btn" data-product-id="klitec"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">Cornley</div>
+                                <h3>KLite-C</h3>
+                                <p class="product-card-type">Electrolyte Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-bolt"></i> Results in 30 seconds</li>
+                                    <li><i class="fas fa-hand-pointer"></i> Touchscreen + barcode</li>
+                                    <li><i class="fas fa-dollar-sign"></i> Low cost per test</li>
+                                    <li><i class="fas fa-tint"></i> Sample: 65 µL</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="KLite-C Electrolyte Analyzer (Cornley)"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/Electrolyte_analyzer_KLite-C_Catalog.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ============ IMMUNOASSAY & POCT ============ -->
+                <div class="product-panel" data-panel="immunoassay">
+                    <div class="products-grid">
+
+                        <div class="product-card product-card-wide" data-product-id="l300">
+                            <div class="product-card-image">
+                                <img src="assets/images/L300_reagent/L300_reagent_006.png" alt="L300" loading="lazy">
+                                <div class="product-card-badge">255 Tests</div>
+                                <button class="quick-view-btn" data-product-id="l300"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">LabSim IVD</div>
+                                <h3>L300 Immunofluorescence Analyzer</h3>
+                                <p class="product-card-type">Fluorescence Immunoassay Analyzer</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-bolt"></i> Test speed: &lt;10 seconds</li>
+                                    <li><i class="fas fa-tablet-alt"></i> 8.1" Android touchscreen</li>
+                                    <li><i class="fas fa-database"></i> 10,000+ record storage</li>
+                                    <li><i class="fas fa-network-wired"></i> USB &amp; LIS support</li>
+                                </ul>
+                                <div class="l300-tests">
+                                    <span class="test-cat"><i class="fas fa-virus"></i> Infection</span>
+                                    <span class="test-cat"><i class="fas fa-venus-mars"></i> Hormones</span>
+                                    <span class="test-cat"><i class="fas fa-heartbeat"></i> Cardiac</span>
+                                    <span class="test-cat"><i class="fas fa-ribbon"></i> Cancer</span>
+                                    <span class="test-cat"><i class="fas fa-disease"></i> Infectious</span>
+                                </div>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="L300 Immunofluorescence Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/L300_a_reagent.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="afs1000">
+                            <div class="product-card-image">
+                                <img src="assets/images/AFS-1000/AFS-1000_003.png" alt="AFS-1000" loading="lazy">
+                                <div class="product-card-badge">Portable</div>
+                                <button class="quick-view-btn" data-product-id="afs1000"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">AFS</div>
+                                <h3>AFS-1000</h3>
+                                <p class="product-card-type">Fluorescent Immunoanalyzer (POCT)</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-feather-alt"></i> Small, light, fast &amp; stable</li>
+                                    <li><i class="fas fa-walking"></i> Indoor &amp; outdoor use</li>
+                                    <li><i class="fas fa-id-card"></i> Reagent card insertion</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="AFS-1000 Fluorescent Immunoanalyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/AFS-1000.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product-card" data-product-id="n9fia2002">
+                            <div class="product-card-image">
+                                <img src="assets/images/catalogue_Nineking_med_2026_POCT/catalogue_Nineking_med_2026_POCT_006.png" alt="NineKingMed POCT" loading="lazy">
+                                <button class="quick-view-btn" data-product-id="n9fia2002"><i class="fas fa-eye"></i> Quick View</button>
+                            </div>
+                            <div class="product-card-body">
+                                <div class="product-card-brand">NineKingMed</div>
+                                <h3>N9-FIA2002</h3>
+                                <p class="product-card-type">Fluorescence Immunoassay (POCT)</p>
+                                <ul class="product-card-specs">
+                                    <li><i class="fas fa-compress-alt"></i> Compact POCT design</li>
+                                    <li><i class="fas fa-star"></i> NineKingMed 2026 range</li>
+                                    <li><i class="fas fa-bolt"></i> Rapid fluorescence</li>
+                                </ul>
+                                <div class="product-card-actions">
+                                    <button class="btn btn-sm btn-primary inquire-btn" data-product="N9-FIA2002 NineKingMed POCT Analyzer"><i class="fas fa-envelope"></i> Inquire</button>
+                                    <a href="assets/catalogs/catalogue_Nineking_med_2026_POCT.pdf" download class="btn btn-sm btn-ghost"><i class="fas fa-file-pdf"></i> Catalog</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ============ REAGENTS ============ -->
+                <div class="product-panel" data-panel="reagents">
+                    <div class="reagent-categories-grid">
+                        <div class="reagent-card">
+                            <div class="reagent-card-icon"><i class="fas fa-flask"></i></div>
+                            <h3>Clinical Chemistry &amp; Biochemistry</h3>
+                            <ul><li>Glucose, Urea, Creatinine</li><li>Lipid profile (Cholesterol, HDL, LDL, TG)</li><li>Enzymes (ALT, AST, ALP, GGT)</li><li>Electrolytes, Bilirubin, Uric acid</li></ul>
+                            <button class="btn btn-sm btn-outline inquire-btn" data-product="Clinical Chemistry Reagents">Inquire</button>
+                        </div>
+                        <div class="reagent-card">
+                            <div class="reagent-card-icon"><i class="fas fa-vials"></i></div>
+                            <h3>Diagnostic Consumables</h3>
+                            <ul><li>Hematology reagents</li><li>Coagulation kits</li><li>HbA1c reagents</li><li>Urine test strips</li></ul>
+                            <button class="btn btn-sm btn-outline inquire-btn" data-product="Diagnostic Reagents & Consumables">Inquire</button>
+                        </div>
+                        <div class="reagent-card">
+                            <div class="reagent-card-icon"><i class="fas fa-dna"></i></div>
+                            <h3>ELISA &amp; Immunoassay Kits</h3>
+                            <ul><li>Clinical diagnostic ELISA kits</li><li>Ultra-sensitive immunoassays</li><li>Automated system reagents</li></ul>
+                            <button class="btn btn-sm btn-outline inquire-btn" data-product="ELISA & Immunoassay Kits">Inquire</button>
+                        </div>
+                        <div class="reagent-card">
+                            <div class="reagent-card-icon"><i class="fas fa-microscope"></i></div>
+                            <h3>Biotech &amp; Molecular Biology</h3>
+                            <ul><li>PCR reagents</li><li>Molecular gene detection kits</li><li>Specialized biochemistry kits</li></ul>
+                            <button class="btn btn-sm btn-outline inquire-btn" data-product="Biotech & Molecular Biology Reagents">Inquire</button>
+                        </div>
+                        <div class="reagent-card">
+                            <div class="reagent-card-icon"><i class="fas fa-box-open"></i></div>
+                            <h3>Laboratory Consumables</h3>
+                            <ul><li>Micropipettes and tips</li><li>Lab tubes, reagent bottles</li><li>Controls &amp; calibrators</li></ul>
+                            <button class="btn btn-sm btn-outline inquire-btn" data-product="Laboratory Consumables">Inquire</button>
+                        </div>
+                        <div class="reagent-card">
+                            <div class="reagent-card-icon"><i class="fas fa-check-circle"></i></div>
+                            <h3>QC &amp; Standards</h3>
+                            <ul><li>Quality control materials</li><li>Calibrator solutions</li><li>Reference standards</li></ul>
+                            <button class="btn btn-sm btn-outline inquire-btn" data-product="Quality Controls, Calibrators & Standards">Inquire</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== About Us Section ====== -->
+    <section class="section about-section" id="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag animate-in">About Us</span>
+                <h2 class="section-title animate-in">Trusted Across <span class="text-red">Bangladesh</span></h2>
+                <p class="section-desc animate-in">MacGen Trade International has built a nationwide network to deliver premium biomedical solutions with unmatched after-sales support.</p>
+            </div>
+            <div class="about-grid">
+                <div class="map-container animate-in">
+                    <div id="bangladesh-map" class="bangladesh-map"></div>
+                </div>
+                <div class="about-info">
+                    <div class="about-card animate-in">
+                        <div class="about-card-icon"><i class="fas fa-clock"></i></div>
+                        <div><h4>24/7 Engineering Support</h4><p>Round-the-clock technical assistance. We never let downtime affect your lab operations.</p></div>
+                    </div>
+                    <div class="about-card animate-in">
+                        <div class="about-card-icon"><i class="fas fa-tools"></i></div>
+                        <div><h4>50+ Experienced Engineers</h4><p>Factory-trained and certified — installation, calibration, preventive maintenance, and emergency repairs.</p></div>
+                    </div>
+                    <div class="about-card animate-in">
+                        <div class="about-card-icon"><i class="fas fa-map-marked-alt"></i></div>
+                        <div><h4>9 Branch Offices Nationwide</h4><p>Dhaka, Chittagong, Sylhet, Rajshahi, Rangpur, Khulna, Barisal, Mymensingh, and Comilla.</p></div>
+                    </div>
+                    <div class="about-card animate-in">
+                        <div class="about-card-icon"><i class="fas fa-handshake"></i></div>
+                        <div><h4>15+ Years of Trust</h4><p>Lasting relationships with hospitals, diagnostic centers, and research laboratories nationwide.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== Partners Section ====== -->
+    <section class="section partners-section" id="partners">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag animate-in">Exclusive Partnerships</span>
+                <h2 class="section-title animate-in">Our <span class="text-red">Global Partners</span></h2>
+                <p class="section-desc animate-in">Authorized exclusive distributor of world-renowned diagnostic equipment manufacturers.</p>
+            </div>
+            <div class="partners-grid">
+                <div class="partner-card animate-in">
+                    <div class="partner-logo-wrap"><img src="assets/logos/urit.png" alt="URIT Medical" class="partner-logo-img"></div>
+                    <h3>URIT Medical Electronic Co., Ltd.</h3>
+                    <span class="partner-badge">Exclusive Distributor</span>
+                    <p>World-class manufacturer of clinical chemistry, hematology, and blood gas analyzers serving 150+ countries.</p>
+                    <div class="partner-products"><span>CA-431A</span><span>CA-200</span><span>URIT-5380</span><span>URIT-880</span><span>BH-40P</span><span>BH-6180</span></div>
+                </div>
+                <div class="partner-card animate-in">
+                    <div class="partner-logo-wrap"><img src="assets/logos/cornley.jpeg" alt="Cornley Medical" class="partner-logo-img"></div>
+                    <h3>Cornley Medical Equipment</h3>
+                    <span class="partner-badge">Exclusive Distributor</span>
+                    <p>Leading manufacturer of electrolyte analyzers with innovative ISE technology — fast, accurate, minimal cost.</p>
+                    <div class="partner-products"><span>KLite-C</span></div>
+                </div>
+                <div class="partner-card animate-in">
+                    <div class="partner-logo-wrap"><img src="assets/logos/labsim.jpg" alt="LabSim IVD" class="partner-logo-img"></div>
+                    <h3>LabSim IVD (Guangzhou)</h3>
+                    <span class="partner-badge">Authorized Dealer</span>
+                    <p>Advanced POCT fluorescence immunoassay — infection, cardiac, thyroid, and cancer markers.</p>
+                    <div class="partner-products"><span>L300</span></div>
+                </div>
+                <div class="partner-card animate-in">
+                    <div class="partner-logo-wrap"><div class="partner-letter">NKM</div></div>
+                    <h3>NineKingMed</h3>
+                    <span class="partner-badge">Authorized Dealer</span>
+                    <p>Innovative POCT solutions and fluorescence immunoassay analyzers for rapid diagnostics.</p>
+                    <div class="partner-products"><span>N9-FIA2002</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== Contact Section ====== -->
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag animate-in">Get In Touch</span>
+                <h2 class="section-title animate-in">Request a <span class="text-red">Quote</span></h2>
+                <p class="section-desc animate-in">Send us an inquiry and our team will get back to you within 24 hours.</p>
+            </div>
+            <div class="contact-grid">
+                <form class="contact-form animate-in" id="inquiry-form">
+                    <div class="form-row">
+                        <div class="form-group"><label for="name">Full Name *</label><input type="text" id="name" name="name" required placeholder="Your name"></div>
+                        <div class="form-group"><label for="organization">Organization</label><input type="text" id="organization" name="organization" placeholder="Hospital / Lab name"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label for="email">Email Address *</label><input type="email" id="email" name="email" required placeholder="your@email.com"></div>
+                        <div class="form-group"><label for="phone">Phone Number *</label><input type="tel" id="phone" name="phone" required placeholder="+880-XXXX-XXXXXX"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-interest">Product of Interest</label>
+                        <select id="product-interest" name="product">
+                            <option value="">Select a product...</option>
+                            <optgroup label="Clinical Chemistry">
+                                <option value="CA-431A">CA-431A — Automatic Chemistry Analyzer</option>
+                                <option value="CA-200">CA-200 — Semi-auto Chemistry Analyzer</option>
+                                <option value="URIT-880">URIT-880 — Semi-auto Chemistry Analyzer</option>
+                            </optgroup>
+                            <optgroup label="Hematology">
+                                <option value="URIT-5380">URIT-5380 — 5-Part Hematology Analyzer</option>
+                                <option value="BH-40P">BH-40P — Hematology Analyzer</option>
+                                <option value="BH-6180">BH-6180 — Advanced Hematology Analyzer</option>
+                            </optgroup>
+                            <optgroup label="Blood Gas & Electrolyte">
+                                <option value="BG-800">BG-800 — Blood Gas Analyzer</option>
+                                <option value="Vitagas 5">Vitagas 5 — Blood Gas Analyzer</option>
+                                <option value="AFT-800">AFT-800 — Electrolyte Analyzer</option>
+                                <option value="KLite-C">KLite-C — Electrolyte Analyzer</option>
+                            </optgroup>
+                            <optgroup label="Immunoassay & POCT">
+                                <option value="L300">L300 — Immunofluorescence Analyzer</option>
+                                <option value="AFS-1000">AFS-1000 — Fluorescent Immunoanalyzer</option>
+                                <option value="N9-FIA2002">N9-FIA2002 — POCT Analyzer</option>
+                            </optgroup>
+                            <optgroup label="Reagents"><option value="Reagents">Reagents &amp; Consumables</option></optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="4" placeholder="Tell us about your requirements..."></textarea></div>
+                    <button type="submit" class="btn btn-primary btn-lg"><span>Send Inquiry</span><i class="fas fa-paper-plane"></i></button>
+                    <div class="form-success" id="form-success"><i class="fas fa-check-circle"></i><p>Thank you! Your inquiry has been sent. We'll contact you within 24 hours.</p></div>
+                </form>
+                <div class="contact-info animate-in">
+                    <div class="contact-info-card">
+                        <h3>MacGen Trade International</h3>
+                        <p class="contact-tagline">Your Trusted Partner in Diagnostics</p>
+                        <div class="contact-details">
+                            <div class="contact-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div><strong>Head Office</strong><span>13/3 Zigatola, Road - 4/A (West),<br>Dhanmondi R/A, Dhaka-1209, Bangladesh</span></div>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="fas fa-phone"></i>
+                                <div><strong>Phone</strong><a href="tel:+8801712095098">01712-095098</a><br><a href="tel:+8801676178550">01676-178550</a><br><a href="tel:+8801750789004">01750-789004</a></div>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="fas fa-envelope"></i>
+                                <div><strong>Email</strong><a href="mailto:masum.macgen@gmail.com">masum.macgen@gmail.com</a></div>
+                            </div>
+                            <div class="contact-detail">
+                                <i class="fas fa-clock"></i>
+                                <div><strong>Support</strong><span>24/7 Engineering Support Available</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="google-map-wrap">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3652.2!2d90.3747!3d23.7395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755b8b7a55cd36b%3A0x9f2e5c3a3e2b1c0d!2sZigatola%2C%20Dhaka%201209!5e0!3m2!1sen!2sbd!4v1708300000000!5m2!1sen!2sbd" width="100%" height="220" style="border:0;border-radius:12px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                    <div class="support-banner">
+                        <div class="support-icon"><i class="fas fa-headset"></i></div>
+                        <div><h4>Need urgent support?</h4><p>Call us directly at <a href="tel:+8801712095098">01712-095098</a> for immediate engineering assistance.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ====== Footer ====== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <object data="assets/macgen-logo.svg" type="image/svg+xml" class="footer-logo-svg"></object>
+                    </div>
+                    <p>Leading biomedical equipment distributor in Bangladesh with 15+ years of excellence in healthcare diagnostics.</p>
+                    <div class="footer-address">
+                        <p><i class="fas fa-map-marker-alt"></i> 13/3 Zigatola, Road - 4/A (West), Dhanmondi R/A, Dhaka-1209</p>
+                        <p><i class="fas fa-phone"></i> 01712-095098 · 01676-178550 · 01750-789004</p>
+                        <p><i class="fas fa-envelope"></i> masum.macgen@gmail.com</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Products</h4>
+                    <a href="#products">Clinical Chemistry</a>
+                    <a href="#products">Hematology</a>
+                    <a href="#products">Blood Gas &amp; Electrolyte</a>
+                    <a href="#products">Immunoassay &amp; POCT</a>
+                    <a href="#products">Reagents</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <a href="#about">About Us</a>
+                    <a href="#partners">Our Partners</a>
+                    <a href="#contact">Contact</a>
+                    <a href="#contact">Get a Quote</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Partners</h4>
+                    <a href="#partners">URIT Medical</a>
+                    <a href="#partners">Cornley</a>
+                    <a href="#partners">LabSim IVD</a>
+                    <a href="#partners">NineKingMed</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 MacGen Trade International. All rights reserved.</p>
+                <p>Dhaka, Bangladesh</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ====== Quick Inquiry Modal ====== -->
+    <div class="modal-overlay" id="inquiry-modal">
+        <div class="modal-content">
+            <button class="modal-close inquiry-modal-close"><i class="fas fa-times"></i></button>
+            <div class="inquiry-modal-body">
+                <h3><i class="fas fa-envelope"></i> Quick Inquiry</h3>
+                <p id="inquiry-product-name"></p>
+                <form id="quick-inquiry-form">
+                    <input type="hidden" id="qi-product" name="product">
+                    <div class="form-group"><input type="text" name="name" required placeholder="Your Name *"></div>
+                    <div class="form-group"><input type="email" name="email" required placeholder="Email Address *"></div>
+                    <div class="form-group"><input type="tel" name="phone" required placeholder="Phone Number *"></div>
+                    <div class="form-group"><textarea name="message" rows="3" placeholder="Your message..."></textarea></div>
+                    <button type="submit" class="btn btn-primary"><span>Send Inquiry</span><i class="fas fa-paper-plane"></i></button>
+                </form>
+                <div class="form-success" id="qi-form-success"><i class="fas fa-check-circle"></i><p>Inquiry sent! We'll respond within 24 hours.</p></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== Product Quick-View Modal ====== -->
+    <div class="modal-overlay" id="product-quickview-modal">
+        <div class="modal-content quickview-modal-content">
+            <button class="modal-close quickview-modal-close"><i class="fas fa-times"></i></button>
+            <div class="quickview-body">
+                <div class="quickview-gallery">
+                    <div class="quickview-main-image">
+                        <img id="qv-main-img" src="" alt="Product">
+                    </div>
+                    <div class="quickview-thumbs" id="qv-thumbs"></div>
+                </div>
+                <div class="quickview-info">
+                    <div class="quickview-brand" id="qv-brand"></div>
+                    <h2 id="qv-title"></h2>
+                    <p class="quickview-type" id="qv-type"></p>
+                    <div class="quickview-highlights" id="qv-highlights"></div>
+                    <div class="quickview-specs">
+                        <h4><i class="fas fa-list-check"></i> Specifications</h4>
+                        <div id="qv-specs"></div>
+                    </div>
+                    <div class="quickview-actions">
+                        <button class="btn btn-primary inquire-btn" id="qv-inquire-btn" data-product=""><i class="fas fa-envelope"></i> <span>Request Quote</span></button>
+                        <a id="qv-catalog-link" href="" download class="btn btn-outline"><i class="fas fa-file-pdf"></i> <span>Download Catalog</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="assets/js/Gradient.js"></script>
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

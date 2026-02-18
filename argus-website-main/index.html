@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Argus — Automated Garment Quality Assurance at Machine Speed</title>
+    <meta name="description" content="Millimeter-precise garment measurements in 3 seconds — fully automated, fully auditable. Argus transforms garment quality control.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='700 150 610 560'%3E%3Cpath d='M1001.34,179.75l-268.17,124l268.17,100l268.83-100Z' fill='none' stroke='%2300E5A0' stroke-width='6'/%3E%3Cpath d='M1002,512.74l-268.83,100l268.83,124l268.17-124Z' fill='none' stroke='%2300E5A0' stroke-width='6'/%3E%3Cpath d='M1001.83,179.75L734.07,303.84l-1.41,309.91l269.17,122l268.83-122l1.01-309.91Z' fill='none' stroke='%2300E5A0' stroke-width='6' opacity='0.7'/%3E%3Crect x='1000.65' y='514.75' width='2.18' height='216' fill='%2300E5A0' opacity='0.6'/%3E%3Crect x='1000.65' y='186.88' width='2.04' height='216' fill='%2300E5A0' opacity='0.6'/%3E%3C/svg%3E">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP + ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Film Grain -->
+    <div class="noise"></div>
+
+    <!-- Mesh Gradient Background (Stripe-style WebGL) -->
+    <canvas id="gradient-canvas" data-js-darken-top data-transition-in></canvas>
+
+    <!-- Custom Cursor -->
+    <div class="cursor" id="cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+    </div>
+
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-inner">
+            <div class="preloader-logo">
+                <svg viewBox="700 150 610 560" class="preloader-diamond">
+                    <path class="diamond-top" d="M1001.34,179.75l-268.17,124l268.17,100l268.83-100Z" fill="none" stroke="currentColor" stroke-width="4"/>
+                    <path class="diamond-bottom" d="M1002,512.74l-268.83,100l268.83,124l268.17-124Z" fill="none" stroke="currentColor" stroke-width="4"/>
+                    <path class="diamond-hex" d="M1001.83,179.75L734.07,303.84l-1.41,309.91l269.17,122l268.83-122l1.01-309.91Z" fill="none" stroke="currentColor" stroke-width="4" opacity="0.5"/>
+                    <rect class="diamond-vline" x="1000" y="514.75" width="3" height="216" fill="currentColor" opacity="0.4"/>
+                    <rect class="diamond-vline" x="1000" y="186.88" width="3" height="216" fill="currentColor" opacity="0.4"/>
+                </svg>
+            </div>
+            <div class="preloader-bar-track">
+                <div class="preloader-bar" id="preloaderBar"></div>
+            </div>
+            <div class="preloader-text">
+                <span class="preloader-label">INITIALIZING ARGUS</span>
+                <span class="preloader-pct" id="preloaderPct">0%</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <a href="#" class="nav-logo" data-magnetic>
+            <span class="nav-logo-icon">
+                <svg viewBox="700 150 610 560" width="28" height="28">
+                    <path d="M1001.34,179.75l-268.17,124l268.17,100l268.83-100Z" fill="none" stroke="currentColor" stroke-width="8"/>
+                    <path d="M1002,512.74l-268.83,100l268.83,124l268.17-124Z" fill="none" stroke="currentColor" stroke-width="8"/>
+                    <path d="M1001.83,179.75L734.07,303.84l-1.41,309.91l269.17,122l268.83-122l1.01-309.91Z" fill="none" stroke="currentColor" stroke-width="8" opacity="0.6"/>
+                    <rect x="999" y="514.75" width="5" height="216" fill="currentColor" opacity="0.5"/>
+                    <rect x="999" y="186.88" width="5" height="216" fill="currentColor" opacity="0.5"/>
+                </svg>
+            </span>
+            <span class="nav-logo-text">ARGUS</span>
+        </a>
+        <div class="nav-links">
+            <a href="#problem" class="nav-link" data-magnetic><span>Problem</span></a>
+            <a href="#solution" class="nav-link" data-magnetic><span>Solution</span></a>
+            <a href="#visualizer" class="nav-link" data-magnetic><span>Demo</span></a>
+            <a href="#impact" class="nav-link" data-magnetic><span>Impact</span></a>
+            <a href="#future" class="nav-link" data-magnetic><span>Future</span></a>
+            <a href="#contact" class="nav-link" data-magnetic><span>Contact</span></a>
+        </div>
+        <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-links">
+            <a href="#problem" class="mobile-link"><span>Problem</span></a>
+            <a href="#solution" class="mobile-link"><span>Solution</span></a>
+            <a href="#visualizer" class="mobile-link"><span>Demo</span></a>
+            <a href="#impact" class="mobile-link"><span>Impact</span></a>
+            <a href="#future" class="mobile-link"><span>Future</span></a>
+            <a href="#contact" class="mobile-link"><span>Contact</span></a>
+        </div>
+    </div>
+
+    <!-- ==================== HERO ==================== -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-canvas" id="heroBgCanvas"></div>
+        <div class="hero-content">
+            <div class="hero-badge" data-animate>
+                <span class="hero-badge-dot"></span>
+                <span>Automated Quality Assurance</span>
+            </div>
+            <h1 class="hero-title" data-animate>
+                <span class="hero-line"><span class="hero-line-inner">Measure Every</span></span>
+                <span class="hero-line"><span class="hero-line-inner">Garment.</span></span>
+                <span class="hero-line"><span class="hero-line-inner"><span class="typing-wrap"><span class="typing-word" id="typingWord">Perfectly.</span><span class="typing-cursor">|</span></span></span></span>
+            </h1>
+            <p class="hero-sub" data-animate>
+                Millimeter-precise garment measurements in <strong>3 seconds</strong> — fully automated, fully auditable.
+            </p>
+            <div class="hero-stats-row" data-animate>
+                <div class="hero-stat">
+                    <span class="hero-stat-number" data-count="3">0</span><span class="hero-stat-unit">sec</span>
+                    <span class="hero-stat-label">Per Garment</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number" data-count="100">0</span><span class="hero-stat-unit">%</span>
+                    <span class="hero-stat-label">Inspection Rate</span>
+                </div>
+                <div class="hero-stat-divider"></div>
+                <div class="hero-stat">
+                    <span class="hero-stat-prefix">±</span><span class="hero-stat-number" data-count="1">0</span><span class="hero-stat-unit">mm</span>
+                    <span class="hero-stat-label">Precision</span>
+                </div>
+            </div>
+            <div class="hero-cta" data-animate>
+                <a href="#visualizer" class="btn btn-primary" data-magnetic>
+                    <span>See It In Action</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V8H8"/></svg>
+                </a>
+                <a href="#contact" class="btn btn-ghost" data-magnetic>
+                    <span>Get In Touch</span>
+                </a>
+            </div>
+        </div>
+        <!-- Argus 3D Logo -->
+        <div class="hero-logo-visual" id="heroLogo">
+            <svg viewBox="640 130 730 630" class="argus-3d-logo" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="lg1" x1="733" y1="292" x2="1270" y2="292" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.46" stop-color="#00E5A0"/>
+                        <stop offset="1" stop-color="#000"/>
+                    </linearGradient>
+                    <linearGradient id="lg2" x1="1270" y1="625" x2="733" y2="625" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.46" stop-color="#00E5A0"/>
+                        <stop offset="1" stop-color="#000"/>
+                    </linearGradient>
+                    <linearGradient id="lg3" x1="790" y1="671" x2="1214" y2="247" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#000"/>
+                        <stop offset="0.35" stop-color="#00E5A0"/>
+                        <stop offset="0.51" stop-color="#00E5A0"/>
+                        <stop offset="0.75" stop-color="#00B4D8"/>
+                        <stop offset="1" stop-color="#000"/>
+                    </linearGradient>
+                    <linearGradient id="lg4" x1="1002" y1="731" x2="1001" y2="515" gradientUnits="userSpaceOnUse">
+                        <stop offset="0.26" stop-color="#000"/>
+                        <stop offset="1" stop-color="#00E5A0"/>
+                    </linearGradient>
+                    <linearGradient id="lg5" x1="1002" y1="403" x2="1001" y2="187" gradientUnits="userSpaceOnUse">
+                        <stop offset="0" stop-color="#00E5A0"/>
+                        <stop offset="0.74" stop-color="#000"/>
+                    </linearGradient>
+                </defs>
+                <path class="logo-face logo-top" d="M1001.34,179.75l-268.17,124l268.17,100l268.83-100Z" fill="none" stroke="url(#lg1)" stroke-width="2"/>
+                <path class="logo-face logo-bottom" d="M1002,512.74l-268.83,100l268.83,124l268.17-124Z" fill="none" stroke="url(#lg2)" stroke-width="2"/>
+                <path class="logo-hex" d="M1001.83,179.75L734.07,303.84l-1.41,309.91l269.17,122l268.83-122l1.01-309.91Z" fill="none" stroke="url(#lg3)" stroke-width="2" opacity="0.77"/>
+                <rect class="logo-vline logo-vline-bottom" x="1000.65" y="514.75" width="2.18" height="216" fill="url(#lg4)"/>
+                <rect class="logo-vline logo-vline-top" x="1000.65" y="186.88" width="2.04" height="216" fill="url(#lg5)"/>
+                <g class="logo-text" stroke="#00E5A0" stroke-miterlimit="10" fill="none">
+                    <path d="M889.05,429.75l21.91,56.8h-8.12l-5.03-13.07h-25.63l-5.03,13.07h-8.12l21.91-56.8H889.05z M875.26,465.37h19.41l-9.67-25.03L875.26,465.37z"/>
+                    <path d="M965.58,450.04c0,7.92-3.38,12.44-10.14,13.55l10.7,22.97h-8.99l-10.54-22.7h-17.79v22.7h-8.12v-56.8h31.09c9.19,0,13.78,4.61,13.78,13.82V450.04z M928.82,455.74h22.54c2.17,0,3.72-0.48,4.67-1.43s1.43-2.51,1.43-4.67v-5.66c0-2.17-0.48-3.72-1.43-4.67s-2.51-1.43-4.67-1.43h-22.54V455.74z"/>
+                    <path d="M979.13,437.88c0-1.11,0.21-2.16,0.63-3.15c0.42-0.99,1-1.85,1.74-2.57c0.74-0.73,1.6-1.31,2.59-1.74c0.99-0.44,2.04-0.65,3.15-0.65h30.82c1.11,0,2.16,0.22,3.15,0.65c0.99,0.44,1.86,1.02,2.59,1.74c0.74,0.73,1.32,1.58,1.74,2.57c0.42,0.99,0.63,2.04,0.63,3.15v7.33h-8.12v-7.33h-30.82v40.56h30.82v-13.79h-15.41v-8.12h23.53v21.91c0,1.11-0.21,2.16-0.63,3.15c-0.42,0.99-1,1.86-1.74,2.59c-0.74,0.74-1.6,1.32-2.59,1.74c-0.99,0.42-2.04,0.63-3.15,0.63h-30.82c-1.11,0-2.16-0.21-3.15-0.63c-0.99-0.42-1.86-1-2.59-1.74c-0.74-0.74-1.32-1.6-1.74-2.59c-0.42-0.99-0.63-2.04-0.63-3.15V437.88z"/>
+                    <path d="M1040.76,429.75h8.12v48.68h32.44v-48.68h8.12v48.68c0,1.11-0.21,2.16-0.63,3.15c-0.42,0.99-1,1.86-1.74,2.59c-0.74,0.74-1.6,1.32-2.59,1.74c-0.99,0.42-2.04,0.63-3.15,0.63h-32.44c-1.11,0-2.16-0.21-3.15-0.63c-0.99-0.42-1.86-1-2.59-1.74c-0.74-0.74-1.32-1.6-1.74-2.59c-0.42-0.99-0.63-2.04-0.63-3.15V429.75z"/>
+                    <path d="M1112.14,462.24c-1.11,0-2.16-0.22-3.15-0.65c-0.99-0.44-1.86-1.02-2.59-1.74c-0.74-0.73-1.32-1.58-1.74-2.57c-0.42-0.99-0.63-2.04-0.63-3.15v-16.24c0-1.11,0.21-2.16,0.63-3.15c0.42-0.99,1-1.85,1.74-2.57c0.74-0.73,1.6-1.31,2.59-1.74c0.99-0.44,2.04-0.65,3.15-0.65h27.57c1.11,0,2.16,0.22,3.15,0.65c0.99,0.44,1.85,1.02,2.59,1.74c0.74,0.73,1.32,1.58,1.74,2.57c0.42,0.99,0.63,2.04,0.63,3.15v7.33h-8.12v-7.33h-27.57v16.24h27.57c1.11,0,2.16,0.21,3.15,0.63s1.85,1,2.59,1.74c0.74,0.74,1.32,1.6,1.74,2.59c0.42,0.99,0.63,2.04,0.63,3.15v16.2c0,1.11-0.21,2.16-0.63,3.15c-0.42,0.99-1,1.86-1.74,2.59c-0.74,0.74-1.6,1.32-2.59,1.74c-0.99,0.42-2.04,0.63-3.15,0.63h-28.36c-1.11,0-2.16-0.21-3.15-0.63c-0.99-0.42-1.86-1-2.59-1.74c-0.74-0.74-1.32-1.6-1.74-2.59c-0.42-0.99-0.63-2.04-0.63-3.15v-7.29h8.12v7.29h28.36v-16.2H1112.14z"/>
+                </g>
+            </svg>
+        </div>
+        <div class="hero-scroll">
+            <div class="hero-scroll-line"><div class="hero-scroll-dot"></div></div>
+            <span>Scroll</span>
+        </div>
+    </section>
+
+    <!-- ==================== PROBLEM ==================== -->
+    <section class="section problem" id="problem">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-number">01</span>
+                <h2 class="section-title">The Problem</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="problem-hero-text" data-animate="fade-up">
+                <h3>Quality at Scale Is <span class="text-accent">Broken</span></h3>
+                <p>The global garment industry operates on speed, volume, and razor-thin margins — yet quality control remains largely <strong>manual, slow, and incomplete</strong>.</p>
+            </div>
+            <div class="problem-grid">
+                <div class="problem-card" data-animate="fade-up">
+                    <div class="problem-card-icon">
+                        <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M24 14v12l8 4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="problem-card-number">30–60s</div>
+                    <p>per garment with traditional manual measurement</p>
+                </div>
+                <div class="problem-card" data-animate="fade-up">
+                    <div class="problem-card-icon">
+                        <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M16 24h16M24 16v16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="14" y1="14" x2="34" y2="34" stroke="var(--danger)" stroke-width="2" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="problem-card-number">Limited QC</div>
+                    <p>Inspectors can only check a fraction of production</p>
+                </div>
+                <div class="problem-card" data-animate="fade-up">
+                    <div class="problem-card-icon">
+                        <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M24 16v8l-4 4" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="24" cy="32" r="2" fill="currentColor"/></svg>
+                    </div>
+                    <div class="problem-card-number">5-10mm</div>
+                    <p>deviation triggers buyer rejections and lost orders</p>
+                </div>
+                <div class="problem-card" data-animate="fade-up">
+                    <div class="problem-card-icon">
+                        <svg viewBox="0 0 48 48" width="48" height="48"><circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M14 18h20M14 24h16M14 30h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="problem-card-number">$Billions</div>
+                    <p>lost annually to defects, rework, and disputes</p>
+                </div>
+            </div>
+            <div class="problem-callout" data-animate="fade-up">
+                <div class="problem-callout-line"></div>
+                <p>Because traditional QC is slow, <strong>100% inspection is economically impossible</strong>. Defects escape. Non-compliant pieces ship. Brands absorb losses.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== SOLUTION ==================== -->
+    <section class="section solution" id="solution">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-number">02</span>
+                <h2 class="section-title">The Argus Solution</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="solution-headline" data-animate="fade-up">
+                <h3>End-to-End Automated Measurement</h3>
+                <div class="solution-timer">
+                    <span class="timer-number" id="timerNumber">3</span>
+                    <span class="timer-label">seconds</span>
+                </div>
+            </div>
+            <!-- Conveyor Belt Illustration -->
+            <div class="conveyor-illustration" data-animate="fade-up">
+                <svg viewBox="0 0 900 280" class="conveyor-svg" xmlns="http://www.w3.org/2000/svg">
+                    <!-- === MAIN BELT (top track) === -->
+                    <rect x="40" y="118" width="820" height="14" rx="7" fill="none" stroke="var(--border)" stroke-width="1.2"/>
+                    <line x1="40" y1="125" x2="860" y2="125" stroke="var(--border)" stroke-width="0.5" stroke-dasharray="8 6">
+                        <animate attributeName="stroke-dashoffset" from="0" to="-28" dur="0.8s" repeatCount="indefinite"/>
+                    </line>
+
+                    <!-- Rollers (main belt) -->
+                    <circle cx="55" cy="125" r="12" fill="none" stroke="var(--text-muted)" stroke-width="1">
+                        <animateTransform attributeName="transform" type="rotate" from="0 55 125" to="360 55 125" dur="1.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="450" cy="125" r="12" fill="none" stroke="var(--text-muted)" stroke-width="1">
+                        <animateTransform attributeName="transform" type="rotate" from="0 450 125" to="360 450 125" dur="1.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="845" cy="125" r="12" fill="none" stroke="var(--text-muted)" stroke-width="1">
+                        <animateTransform attributeName="transform" type="rotate" from="0 845 125" to="360 845 125" dur="1.5s" repeatCount="indefinite"/>
+                    </circle>
+
+                    <!-- === RETURN BELT (below, for failed items) === -->
+                    <rect x="40" y="228" width="520" height="10" rx="5" fill="none" stroke="var(--border)" stroke-width="0.8" opacity="0.4"/>
+                    <line x1="40" y1="233" x2="560" y2="233" stroke="var(--border)" stroke-width="0.4" stroke-dasharray="6 5" opacity="0.3">
+                        <animate attributeName="stroke-dashoffset" from="-22" to="0" dur="0.8s" repeatCount="indefinite"/>
+                    </line>
+                    <!-- Return belt connectors (vertical) -->
+                    <line x1="560" y1="132" x2="560" y2="228" stroke="var(--border)" stroke-width="0.8" opacity="0.3" stroke-dasharray="4 3"/>
+                    <line x1="40" y1="132" x2="40" y2="228" stroke="var(--border)" stroke-width="0.8" opacity="0.3" stroke-dasharray="4 3"/>
+                    <!-- Return rollers -->
+                    <circle cx="55" cy="233" r="8" fill="none" stroke="var(--text-muted)" stroke-width="0.8" opacity="0.4">
+                        <animateTransform attributeName="transform" type="rotate" from="360 55 233" to="0 55 233" dur="1.5s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="545" cy="233" r="8" fill="none" stroke="var(--text-muted)" stroke-width="0.8" opacity="0.4">
+                        <animateTransform attributeName="transform" type="rotate" from="360 545 233" to="0 545 233" dur="1.5s" repeatCount="indefinite"/>
+                    </circle>
+
+                    <!-- === ARGUS SCANNER === -->
+                    <g transform="translate(330,30)">
+                        <!-- Scanner housing -->
+                        <rect x="-28" y="-16" width="56" height="34" rx="6" fill="rgba(0,229,160,0.05)" stroke="var(--accent)" stroke-width="1.5"/>
+                        <circle cx="0" cy="1" r="11" fill="none" stroke="var(--accent)" stroke-width="1.2"/>
+                        <circle cx="0" cy="1" r="4" fill="var(--accent)" opacity="0.5"/>
+                        <!-- Scan beam (static cone shape, no sweeping line) -->
+                        <polygon points="-24,18 24,18 36,88 -36,88" fill="var(--accent)" opacity="0.04"/>
+                        <line x1="-24" y1="18" x2="-36" y2="88" stroke="var(--accent)" stroke-width="0.6" opacity="0.25"/>
+                        <line x1="24" y1="18" x2="36" y2="88" stroke="var(--accent)" stroke-width="0.6" opacity="0.25"/>
+                        <text x="0" y="-24" text-anchor="middle" fill="var(--accent)" font-family="var(--font-mono)" font-size="9" letter-spacing="2" opacity="0.8">ARGUS</text>
+                    </g>
+
+                    <!-- === DECISION FORK (after scanner) === -->
+                    <!-- Pass arrow (continues right) -->
+                    <g transform="translate(620,90)">
+                        <path d="M0,35 L60,35" stroke="#00E5A0" stroke-width="1" stroke-dasharray="4 3" opacity="0.5"/>
+                        <polygon points="58,31 68,35 58,39" fill="#00E5A0" opacity="0.5"/>
+                    </g>
+                    <!-- Fail arrow (goes down to return belt) -->
+                    <g transform="translate(560,132)">
+                        <path d="M0,0 L0,96" stroke="#FF6B6B" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
+                        <polygon points="-4,92 0,102 4,92" fill="#FF6B6B" opacity="0.4"/>
+                    </g>
+                    <!-- Return arrow (goes left on bottom belt back to start) -->
+                    <g transform="translate(50,233)">
+                        <polygon points="4,-4 -6,0 4,4" fill="var(--text-muted)" opacity="0.3"/>
+                    </g>
+                    <!-- Re-entry arrow (goes up from return belt to main belt) -->
+                    <g transform="translate(40,132)">
+                        <path d="M0,96 L0,0" stroke="var(--text-muted)" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.3"/>
+                        <polygon points="-4,4 0,-6 4,4" fill="var(--text-muted)" opacity="0.3"/>
+                    </g>
+
+                    <!-- === PASS T-SHIRT #1 — starts white, turns green at scanner === -->
+                    <!-- JS-driven shirts: spawned dynamically by app.js -->
+                    <g id="conveyorShirts"></g>
+
+                    <!-- === EXIT DOOR (right side) === -->
+                    <g transform="translate(850,72)">
+                        <rect x="-14" y="-30" width="28" height="60" rx="3" fill="none" stroke="#00E5A0" stroke-width="1.2" opacity="0.5"/>
+                        <rect x="-10" y="-26" width="20" height="52" rx="2" fill="rgba(0,229,160,0.03)"/>
+                        <line x1="0" y1="-30" x2="0" y2="30" stroke="#00E5A0" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.3"/>
+                        <text x="0" y="44" text-anchor="middle" font-family="var(--font-mono)" font-size="7" fill="#00E5A0" letter-spacing="1" opacity="0.6">PACKING</text>
+                    </g>
+
+                    <!-- PASS badge -->
+                    <g transform="translate(720,60)">
+                        <rect x="-24" y="-11" width="48" height="22" rx="11" fill="rgba(0,229,160,0.08)" stroke="#00E5A0" stroke-width="1"/>
+                        <text x="0" y="4" text-anchor="middle" fill="#00E5A0" font-family="var(--font-mono)" font-size="9" font-weight="600">PASS</text>
+                    </g>
+                    <!-- FAIL badge -->
+                    <g transform="translate(580,172)">
+                        <rect x="-24" y="-11" width="48" height="22" rx="11" fill="rgba(255,107,107,0.06)" stroke="#FF6B6B" stroke-width="1" opacity="0.6"/>
+                        <text x="0" y="4" text-anchor="middle" fill="#FF6B6B" font-family="var(--font-mono)" font-size="9" font-weight="600" opacity="0.6">FAIL</text>
+                    </g>
+                    <!-- RETRY label on return belt -->
+                    <g transform="translate(300,250)">
+                        <text x="0" y="0" text-anchor="middle" font-family="var(--font-mono)" font-size="8" fill="var(--text-muted)" letter-spacing="2" opacity="0.3">← REWORK</text>
+                    </g>
+
+                    <!-- === MOTION PATHS === -->
+                    <!-- Pass path: enter left → scan → exit right -->
+                    <path id="passPath" d="M20,100 L850,100" fill="none" stroke="none"/>
+                    <!-- Fail loop: enter left → scan → drop down → go left on return belt → back up → re-enter -->
+                    <path id="failLoopPath" d="M20,100 L560,100 L560,230 L40,230 L40,100 L20,100" fill="none" stroke="none"/>
+                </svg>
+            </div>
+            <div class="solution-features">
+                <div class="solution-card" data-animate="fade-up">
+                    <div class="solution-card-glow"></div>
+                    <div class="solution-card-icon">
+                        <svg viewBox="0 0 48 48" width="40" height="40"><circle cx="24" cy="24" r="10" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="24" cy="24" r="3" fill="currentColor"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                    </div>
+                    <h4>Pixel-Accurate AI</h4>
+                    <p>Geometry-aware measurement logic with camera-based non-contact inspection. Reliable even at scale.</p>
+                </div>
+                <div class="solution-card" data-animate="fade-up">
+                    <div class="solution-card-glow"></div>
+                    <div class="solution-card-icon">
+                        <svg viewBox="0 0 48 48" width="40" height="40"><rect x="8" y="8" width="32" height="32" rx="4" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M16 28l6-8 4 4 6-8" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </div>
+                    <h4>Deterministic Pipelines</h4>
+                    <p>Same garment. Same result. Every time. No fatigue, no subjectivity, no variation.</p>
+                </div>
+                <div class="solution-card" data-animate="fade-up">
+                    <div class="solution-card-glow"></div>
+                    <div class="solution-card-icon">
+                        <svg viewBox="0 0 48 48" width="40" height="40"><path d="M24 8l16 8v16l-16 8-16-8V16z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M24 24v16M8 16l16 8 16-8" stroke="currentColor" stroke-width="1" fill="none" opacity="0.5"/></svg>
+                    </div>
+                    <h4>Tamper-Proof Data</h4>
+                    <p>Fully traceable, authentic QC data visible across factory, buyer, brand, and retailer. No disputes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 3D VISUALIZER ==================== -->
+    <section class="section visualizer" id="visualizer">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-number">03</span>
+                <h2 class="section-title">Live Demo</h2>
+                <div class="section-line"></div>
+            </div>
+            <p class="visualizer-subtitle" data-animate="fade-up">Real measurement data from an actual garment — rendered as a 3D point cloud with automated measurement lines.</p>
+        </div>
+        <div class="visualizer-stage">
+            <div class="visualizer-canvas-wrap" id="visualizerWrap">
+                <canvas id="pointCloudCanvas"></canvas>
+                <div class="visualizer-overlay" id="vizOverlay">
+                    <div class="viz-loading">
+                        <div class="viz-loading-spinner"></div>
+                        <span>Loading point cloud…</span>
+                    </div>
+                </div>
+                <!-- Measurement HUD -->
+                <div class="viz-hud" id="vizHud">
+                    <div class="viz-hud-title">
+                        <span class="viz-hud-dot"></span>
+                        LIVE MEASUREMENT
+                    </div>
+                    <div class="viz-hud-measurements" id="vizMeasurements"></div>
+                </div>
+                <!-- Controls -->
+                <div class="viz-controls">
+                    <button class="viz-ctrl-btn" id="vizAutoRotate" data-magnetic title="Toggle Auto-Rotate">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 11-6.219-8.56"/><polyline points="21 3 21 9 15 9"/></svg>
+                    </button>
+                    <button class="viz-ctrl-btn" id="vizResetView" data-magnetic title="Reset View">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                    </button>
+                    <button class="viz-ctrl-btn active" id="vizPlayMeasurements" data-magnetic title="Animate Measurements">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== IMPACT ==================== -->
+    <section class="section impact" id="impact">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-number">04</span>
+                <h2 class="section-title">The Impact</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="impact-headline" data-animate="fade-up">
+                <h3>Real Savings at <span class="text-accent">Industrial Scale</span></h3>
+                <p>The garment industry is valued at <strong>$1.7+ trillion globally</strong>. Even a small reduction in defect leakage saves millions.</p>
+            </div>
+            <div class="impact-grid">
+                <div class="impact-card" data-animate="fade-up">
+                    <div class="impact-card-top"></div>
+                    <h4>Faster Inspection</h4>
+                    <p>Higher throughput with 10× faster measurements</p>
+                </div>
+                <div class="impact-card" data-animate="fade-up">
+                    <div class="impact-card-top"></div>
+                    <h4>100% Inspection</h4>
+                    <p>Every garment measured — no more sampling</p>
+                </div>
+                <div class="impact-card" data-animate="fade-up">
+                    <div class="impact-card-top"></div>
+                    <h4>Reduced Rework</h4>
+                    <p>Accurate QC catches issues before shipment</p>
+                </div>
+                <div class="impact-card" data-animate="fade-up">
+                    <div class="impact-card-top"></div>
+                    <h4>Buyer Trust</h4>
+                    <p>Transparent, auditable data strengthens relationships</p>
+                </div>
+            </div>
+            <div class="impact-big-number" data-animate="fade-up">
+                <div class="impact-big-label">Potential annual industry savings</div>
+                <div class="impact-big-value">
+                    $<span class="count-up" data-count="100">0</span>M+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FUTURE ==================== -->
+    <section class="section future" id="future">
+        <!-- Ambient floating particles -->
+        <canvas class="future-particles" id="futureParticles"></canvas>
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <span class="section-number">05</span>
+                <h2 class="section-title">Built for What's Next</h2>
+                <div class="section-line"></div>
+            </div>
+            <div class="future-timeline">
+                <div class="future-timeline-line">
+                    <div class="future-timeline-fill" id="futureTimelineFill"></div>
+                </div>
+                <div class="future-item future-item-active">
+                    <div class="future-marker">
+                        <div class="future-marker-dot"></div>
+                        <div class="future-marker-ping"></div>
+                    </div>
+                    <div class="future-card">
+                        <div class="future-card-icon">
+                            <!-- Measurement / ruler icon -->
+                            <svg viewBox="0 0 64 64" class="future-svg-icon">
+                                <rect x="8" y="24" width="48" height="16" rx="3" class="fi-stroke"/>
+                                <line x1="16" y1="24" x2="16" y2="32" class="fi-stroke"/>
+                                <line x1="24" y1="24" x2="24" y2="36" class="fi-stroke"/>
+                                <line x1="32" y1="24" x2="32" y2="32" class="fi-stroke"/>
+                                <line x1="40" y1="24" x2="40" y2="36" class="fi-stroke"/>
+                                <line x1="48" y1="24" x2="48" y2="32" class="fi-stroke"/>
+                                <circle cx="32" cy="10" r="5" class="fi-stroke fi-dot"/>
+                                <line x1="32" y1="15" x2="32" y2="24" class="fi-stroke fi-connector"/>
+                            </svg>
+                        </div>
+                        <div class="future-card-content">
+                            <span class="future-tag">Today</span>
+                            <h4>Precise Measurements</h4>
+                            <p>Millimeter-accurate automated garment measurement — the hardest technical challenge in QC. We started here.</p>
+                        </div>
+                        <div class="future-card-glow"></div>
+                    </div>
+                </div>
+                <div class="future-item">
+                    <div class="future-marker">
+                        <div class="future-marker-dot"></div>
+                        <div class="future-marker-ping"></div>
+                    </div>
+                    <div class="future-card">
+                        <div class="future-card-icon">
+                            <!-- Eye / defect detection icon -->
+                            <svg viewBox="0 0 64 64" class="future-svg-icon">
+                                <path d="M4 32 C4 32 16 12 32 12 C48 12 60 32 60 32 C60 32 48 52 32 52 C16 52 4 32 4 32Z" class="fi-stroke"/>
+                                <circle cx="32" cy="32" r="10" class="fi-stroke"/>
+                                <circle cx="32" cy="32" r="4" class="fi-stroke fi-dot"/>
+                                <line x1="46" y1="18" x2="52" y2="12" class="fi-stroke fi-accent"/>
+                                <line x1="49" y1="12" x2="55" y2="15" class="fi-stroke fi-accent"/>
+                            </svg>
+                        </div>
+                        <div class="future-card-content">
+                            <span class="future-tag">Next</span>
+                            <h4>Defect Detection</h4>
+                            <p>Automated identification of fabric defects, stains, holes, and surface irregularities.</p>
+                        </div>
+                        <div class="future-card-glow"></div>
+                    </div>
+                </div>
+                <div class="future-item">
+                    <div class="future-marker">
+                        <div class="future-marker-dot"></div>
+                        <div class="future-marker-ping"></div>
+                    </div>
+                    <div class="future-card">
+                        <div class="future-card-icon">
+                            <!-- Brain / full intelligence icon -->
+                            <svg viewBox="0 0 64 64" class="future-svg-icon">
+                                <path d="M32 8 C20 8 12 18 12 28 C12 36 16 42 22 46 L22 56 L42 56 L42 46 C48 42 52 36 52 28 C52 18 44 8 32 8Z" class="fi-stroke"/>
+                                <line x1="26" y1="56" x2="38" y2="56" class="fi-stroke"/>
+                                <line x1="27" y1="60" x2="37" y2="60" class="fi-stroke"/>
+                                <path d="M24 28 Q28 20 32 28 Q36 20 40 28" class="fi-stroke fi-accent"/>
+                                <circle cx="20" cy="34" r="2" class="fi-stroke fi-dot"/>
+                                <circle cx="44" cy="34" r="2" class="fi-stroke fi-dot"/>
+                                <line x1="20" y1="34" x2="12" y2="34" class="fi-stroke fi-connector"/>
+                                <line x1="44" y1="34" x2="52" y2="34" class="fi-stroke fi-connector"/>
+                            </svg>
+                        </div>
+                        <div class="future-card-content">
+                            <span class="future-tag">Coming</span>
+                            <h4>Full Visual Intelligence</h4>
+                            <p>Stitch & seam analysis, part mismatch detection, cutting inconsistencies — complete visual quality intelligence.</p>
+                        </div>
+                        <div class="future-card-glow"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="future-tech">
+                <h4>Powered By</h4>
+                <div class="future-tech-tags">
+                    <span>Advanced Camera Systems</span>
+                    <span>Computer Vision</span>
+                    <span>3D Reconstruction</span>
+                    <span>Edge Computing</span>
+                    <span>Production-Grade Backend</span>
+                    <span>Industrial Reliability</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA / CONTACT ==================== -->
+    <section class="section contact" id="contact">
+        <div class="container">
+            <div class="contact-content" data-animate="fade-up">
+                <h2 class="contact-title">
+                    The Future of Garment QC<br>Is <span class="text-accent">Automated</span>
+                </h2>
+                <p class="contact-sub">Quality control should be fast, accurate, transparent, and scalable. Argus makes that possible — today.</p>
+                <div class="contact-cta">
+                    <a href="mailto:hello@argus.ai" class="btn btn-primary btn-lg" data-magnetic>
+                        <span>Talk to Us</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-brand">
+                    <span class="footer-logo">ARGUS</span>
+                    <span class="footer-tagline">Automated Garment QA at Machine Speed</span>
+                </div>
+                <div class="footer-copy">© 2026 Argus. All rights reserved.</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="Gradient.js"></script>
+    <script>
+        var gradient = new Gradient();
+        gradient.initGradient('#gradient-canvas');
+    </script>
+    <script src="pointcloud.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
